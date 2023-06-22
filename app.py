@@ -14,6 +14,7 @@ from spacy.matcher import PhraseMatcher
 from pdfminer.high_level import extract_text
 import PyPDF2
 
+
 taxonomy = [
     # Programming Languages
     "Python", "JavaScript", "Java", "C++", "C#", "Ruby", "Swift", "Rust", "PHP",
