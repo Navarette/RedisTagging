@@ -77,20 +77,11 @@ taxonomy = [
 
 ]
 
-INDEX_NAME = "embeddings-index"           # name of the search index
-PREFIX = "doc"                            # prefix for the document keys
-# distance metric for the vectors (ex. COSINE, IP, L2)
-DISTANCE_METRIC = "COSINE"
+r = redis.Redis(host='localhost', port=6379, db=0)
 
-REDIS_HOST = "localhost"
-REDIS_PORT = 6379
-REDIS_PASSWORD = ""
+# Memorizza i termini nella tabella Redis
+for term in taxonomy:
+    r.hset("taxonomy", term, 1)
 
-
-def __init__(self):
-    # Connect to Redis
-    self.redis_client = redis.Redis(
-        host=REDIS_HOST,
-        port=REDIS_PORT,
-        password=REDIS_PASSWORD
-    )
+all_terms = r.hkeys("taxonomy")
+print(all_terms)

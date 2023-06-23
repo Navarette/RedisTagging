@@ -14,10 +14,7 @@ from spacy.matcher import PhraseMatcher
 from pdfminer.high_level import extract_text
 import PyPDF2
 
-
-import openai
 import os
-import openai
 from dotenv import load_dotenv
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
