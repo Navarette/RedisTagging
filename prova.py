@@ -19,8 +19,6 @@ from dotenv import load_dotenv
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
-
 taxonomy = [
     # Programming Languages
     "Python", "JavaScript", "Java", "C++", "C#", "Ruby", "Swift", "Rust", "PHP",
@@ -273,7 +271,6 @@ class IntentService():
          return result
 
 
-
 class taggingservice():
     def __init__(self):
         pass
@@ -312,9 +309,8 @@ class taggingservice():
 # to save the file path and its tags
 library = []
 file_paths = [
-    '/workspace/RedisTagging/pdf/MENTAL HEALTH.pdf',
-    '/workspace/RedisTagging/pdf/SMARTPHONE BRANDS DESIGN AND BUYING DECISION.pdf',
-    '/workspace/RedisTagging/pdf/volleyball_tutorial.pdf'
+    '/workspace/RedisTagging/pdf/art.pdf',
+    '/workspace/RedisTagging/pdf/smartphone.pdf'
     ]
 for file_path in file_paths:
     # invokes the class to extract tags
@@ -324,15 +320,11 @@ for file_path in file_paths:
 
 
 # print(library)
-
-
-
-
-question = "what is mental health"
+question = "what is mental art"
 # Get the intent
 intents = IntentService().get_intent(question)
 print(intents)
-
+print(question)
 
 printed_file_paths = [] # to print same filepaths only once
 for item in library:
@@ -347,3 +339,4 @@ for item in library:
 for item in printed_file_paths:
     data = DataService().pdf_to_embeddings(item)
     DataService().load_data_to_redis(data)
+
