@@ -1,0 +1,14 @@
+openai
+redis
+wget
+pandas
+fire
+pypdf 
+spacy
+python-dotenv
+os
+pypdf
+PyPDF2
+pdfminer.six
+numpy
+beautifulsoup4

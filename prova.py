@@ -89,7 +89,6 @@ REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 REDIS_PASSWORD = ""
 
-
 class DataService():
 
     def __init__(self):
@@ -147,7 +146,6 @@ class DataService():
         print(
             f"Loaded {self.redis_client.info()['db0']['keys']} documents in Redis search index with name: {INDEX_NAME}")
 
-
     def remove_newlines(self,text):
         text = open(text, "r", encoding="UTF-8").read()
         text = text.replace('\n', ' ')
@@ -155,8 +153,6 @@ class DataService():
         text = text.replace('  ', ' ')
         text = text.replace('  ', ' ')
         return text
-
-
 
     def pdf_to_embeddings(self, pdf_path: str, chunk_length: int = 550):
         # Read data from pdf file and split it into chunks
@@ -195,16 +191,12 @@ class DataService():
             testo_senza_angolari = re.sub(pattern, "", testo)  # Rimuovi i match del pattern dal testo
             return testo_senza_angolari
 
-
-
-
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
         body = soup.find('body')
         content = str(soup.find_all("p"))
     
         text = rimuovi_contenuto_angolare(content)
-
 
         chunks = []
         
@@ -248,7 +240,6 @@ class DataService():
                 print(f"{i}. {doc.text} (Score: {round(score ,3) })")
         return [doc['text'] for doc in results.docs]
 
-
 class IntentService():
      def __init__(self):
         pass
@@ -270,14 +261,12 @@ class IntentService():
 
          return result
 
-
 class taggingservice():
     def __init__(self):
         pass
 
     def extract_text_from_pdf(file_path):
         return extract_text(file_path)
-
 
     def tag_pdf(file_path, taxonomy):
         # Extraction of text from PDF
@@ -303,9 +292,6 @@ class taggingservice():
 
         return tags
 
-
-
-
 # to save the file path and its tags
 library = []
 file_paths = [
@@ -318,13 +304,11 @@ for file_path in file_paths:
     # saves the tag and the file path to a dictionary
     library.append({'file_path': file_path, 'tags': tags})
 
-
 # print(library)
 question = "what is mental art"
 # Get the intent
 intents = IntentService().get_intent(question)
 print(intents)
-print(question)
 
 printed_file_paths = [] # to print same filepaths only once
 for item in library:
@@ -334,9 +318,8 @@ for item in library:
             print(item['file_path'])
             printed_file_paths.append(item['file_path'])
 
-
-
 for item in printed_file_paths:
-    data = DataService().pdf_to_embeddings(item)
-    DataService().load_data_to_redis(data)
-
+    for intent in intents:
+        facts = DataService().search_redis(intents)
+        answer = ResponseService().generate_response(facts, question)
+        print(answer)
